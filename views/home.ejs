@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e2e;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .action-buttons form button {
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        /* Headings */
+        h2, h3 {
+            color: #f8f9fa;
+        }
+        /* Buttons */
+        button {
+            background-color: #d35400;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #a84300;
+        }
+        /* Logout Button */
+        .logout-btn {
+            background-color: #d35400;
+            color: white;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .logout-btn:hover {
+            background-color: #8a3700;
+        }
+        /* Form Container */
+        .form-container {
+            background-color: rgba(90, 87, 87, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            width: 90%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .form-container form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .form-container input,
+        .form-container select {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background: #2b2c3b;
+            color: #fff;
+            text-align: center;
+        }
+        /* Table Styling */
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: #28293d;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        th {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #444;
+        }
+        tr:hover {
+            background-color: #33354a;
+        }
+        /* Download Button */
+        .download-btn {
+            background-color: #28a745;
+            margin-bottom: 15px;
+        }
+        .download-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/logout"><button class="logout-btn">Logout</button></a>
+
+    <div class="dashboard">
+        <h2>Admin Dashboard</h2>
+
+        <!-- Add User Form -->
+        <div class="form-container">
+            <h3>Add User</h3>
+            <form action="/add" method="post">
+                <input type="text" name="userUniqueId" placeholder="User ID" required>
+                <input type="text" name="userName" placeholder="Name" required>
+                <input type="email" name="userEmail" placeholder="Email" required>
+                <input type="text" name="userAge" placeholder="Age" required>
+                <select name="role" required>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+                <button type="submit">Add User</button>
+            </form>
+        </div>
+
+        <!-- Users Table -->
+        <div class="table-container">
+            <h3>All Users</h3>
+
+            <table>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+                <% data.forEach(user => { %>
+                <tr>
+                    <td><%= user.userUniqueId %></td>
+                    <td><%= user.userName %></td>
+                    <td><%= user.userEmail %></td>
+                    <td><%= user.userAge %></td>
+                    <td><%= user.role %></td>
+                    <td class="action-buttons">
+                        <form action="/delete" method="post">
+                            <input type="hidden" name="userUniqueId" value="<%= user.userUniqueId %>">
+                            <button class="delete-btn" type="submit">Delete</button>
+                        </form>
+                        <a href="/update/<%= user.userUniqueId %>"><button class="update-btn">Update</button></a>
+                    </td>
+                </tr>
+                <% }) %>
+            </table>
+        </div>
+        <!-- Download as CSV Button -->
+        <a href="/download">
+            <button class="download-btn">Download as CSV</button>
+        </a>
+    </div>
+
+</body>
+</html>

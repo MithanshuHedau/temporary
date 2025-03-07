@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/adminDashboard.css">
+    <style>
+        /* Admin Dashboard Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e9ecef;
+    padding: 20px;
+}
+
+.dashboard {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    background: #dc3545;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #c82333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #007bff;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+tr:hover {
+    background: #f1f1f1;
+}
+
+    </style>
+</head>
+<body>
+    <h2>Admin Dashboard</h2>
+    <a href="/logout"><button>Logout</button></a>
+    
+    <h3>All Users</h3>
+    <table>
+        <tr>
+            <th>User Id</th>
+            <th>User Name</th>
+            <th>User Email</th>
+            <th>Age</th>
+            <th>Role</th>
+            <th>Delete</th>
+        </tr>
+        <% data.forEach(element => { %>
+        <tr>
+            <td><%= element.userUniqueId %></td>
+            <td><%= element.userName %></td>
+            <td><%= element.userEmail %></td>
+            <td><%= element.userAge %></td>
+            <td><%= element.role %></td>
+            <td>
+                <form action="/delete" method="post">
+                    <input type="hidden" name="userUniqueId" value="<%= element.userUniqueId %>">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <% }) %>
+    </table>
+</body>
+</html>

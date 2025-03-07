@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #2b2c3b;
+            text-align: center;
+            padding: 20px;
+            color: white;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        /* Form Container */
+        form {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(90, 87, 87, 0.1);
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.3s;
+        }
+
+        form:hover {
+            transform: scale(1.02);
+        }
+
+        /* Input Fields */
+        input, select {
+            padding: 12px;
+            border: 2px solid rgba(90, 87, 87, 0.1);
+            border-radius: 8px;
+            width: 100%;
+            font-size: 16px;
+            background-color: rgba(90, 87, 87, 0.1);
+            transition: border 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: orange;
+            box-shadow: 0 0 8px rgba(255, 165, 0, 0.5);
+            outline: none;
+        }
+
+        /* Buttons */
+        button {
+            background: orange;
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: rgba(255, 165, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Cancel Button */
+        .cancel-btn {
+            background: #353640;
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.2s;
+            /* border: 2px solid orange; */
+        }
+
+        .cancel-btn:hover {
+            background: red;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            form {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Update User</h2>
+    <form action="/update" method="post">
+        <input type="hidden" name="userUniqueId" value="<%= user.userUniqueId %>">
+        <input type="text" name="userName" value="<%= user.userName %>" required placeholder="Enter Name">
+        <input type="email" name="userEmail" value="<%= user.userEmail %>" required placeholder="Enter Email">
+        <input type="text" name="userAge" value="<%= user.userAge %>" required placeholder="Enter Age">
+        <select name="role" required>
+            <option value="admin" <%= user.role === "admin" ? "selected" : "" %>>Admin</option>
+            <option value="user" <%= user.role === "user" ? "selected" : "" %>>User</option>
+        </select>
+        <button type="submit">Update User</button>
+    </form>
+    <a href="/" class="cancel-btn">Cancel</a>
+</body>
+</html>
