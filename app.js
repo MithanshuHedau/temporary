@@ -23,30 +23,24 @@ let users = [
   {
     userUniqueId: "36",
     userName: "Meharsh Chandure",
-    userEmail: "bablu@gmail.com",
+    userEmail: "user_meharsh@gmail.com",
     userAge: "20",
     role: "user",
   },
   {
     userUniqueId: "13",
     userName: "Radhika Shukla",
-    userEmail: "admin@gmail.com",
+    userEmail: "admin_radhika@gmail.com",
     userAge: "21",
     role: "admin",
   },
   {
     userUniqueId: "04",
     userName: "Nitya Joshi",
-    userEmail: "user@gmail.com",
+    userEmail: "user_nitya@gmail.com",
     userAge: "20",
     role: "user",
   },
-];
-
-// Dummy login credentials
-const authUsers = [
-  { email: "admin@gmail.com", password: "admin123", role: "admin" },
-  { email: "user@gmail.com", password: "user123", role: "user" },
 ];
 
 // Middleware for authentication
@@ -61,16 +55,17 @@ const isAdmin = (req, res, next) => {
   res.send("Permission Denied!");
 };
 
-// Home Route (Admin Dashboard) with Sorting
+// Home Route (Admin Dashboard)
 app.get("/", isAuthenticated, (req, res) => {
-  if (req.session.user.role === "admin") {
-    const sortedUsers = users.sort(
-      (a, b) => Number(a.userUniqueId) - Number(b.userUniqueId)
-    );
-    res.render("home", { data: sortedUsers, userRole: req.session.user.role });
-  } else {
-    res.redirect("/profile");
+  if (req.session.user.role === "user") {
+    return res.redirect("/profile"); // Redirect users to profile
   }
+
+  // If admin, render the admin dashboard
+  const sortedUsers = users.sort(
+    (a, b) => Number(a.userUniqueId) - Number(b.userUniqueId)
+  );
+  res.render("home", { data: sortedUsers, userRole: req.session.user.role });
 });
 
 // Route to Download Users as CSV
@@ -88,7 +83,7 @@ app.get("/download", isAuthenticated, isAdmin, (req, res) => {
   }
 });
 
-// Profile Page (Regular Users)
+// Profile Page (Users)
 app.get("/profile", isAuthenticated, (req, res) => {
   res.render("profile", { user: req.session.user });
 });
@@ -98,18 +93,34 @@ app.get("/login", (req, res) => res.render("login"));
 
 // Handle Login
 app.post("/login", (req, res) => {
-  const { email, password } = req.body;
-  const user = authUsers.find(
-    (u) => u.email === email && u.password === password
-  );
-  if (!user) return res.send("Invalid credentials");
+  let { email, password } = req.body;
 
-  req.session.user = {
-    userName: user.email.split("@")[0],
-    userEmail: user.email,
-    role: user.role,
-  };
-  res.redirect(user.role === "admin" ? "/" : "/profile");
+  if (!email || !password) {
+    return res.render("login", { error: "Please enter email and password." });
+  }
+
+  email = email.trim().toLowerCase(); // Normalize email
+
+  if (email.startsWith("user_") && email.endsWith("@gmail.com")) {
+    if (password === "user123") {
+      req.session.user = { email, role: "user" };
+      return res.redirect("/profile");
+    } else {
+      return res.render("login", { error: "Incorrect password for user." });
+    }
+  } else if (email.startsWith("admin_") && email.endsWith("@gmail.com")) {
+    if (password === "admin123") {
+      req.session.user = { email, role: "admin" };
+      return res.redirect("/");
+    } else {
+      return res.render("login", { error: "Incorrect password for admin." });
+    }
+  } else {
+    return res.render("login", {
+      error:
+        "Invalid email format. Use user_<username>@gmail.com or admin_<username>@gmail.com",
+    });
+  }
 });
 
 // Logout
