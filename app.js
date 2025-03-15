@@ -26,6 +26,7 @@ let users = [
     userEmail: "user_meharsh@gmail.com",
     userAge: "20",
     role: "user",
+    tasks: [],
   },
   {
     userUniqueId: "13",
@@ -33,6 +34,7 @@ let users = [
     userEmail: "admin_radhika@gmail.com",
     userAge: "21",
     role: "admin",
+    tasks: [],
   },
   {
     userUniqueId: "04",
@@ -40,6 +42,7 @@ let users = [
     userEmail: "user_nitya@gmail.com",
     userAge: "20",
     role: "user",
+    tasks: [],
   },
 ];
 

@@ -18,7 +18,7 @@
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             display: inline-block;
-            width: 350px;
+            width: 90%;
             animation: fadeIn 0.8s ease-in-out;
         }
         h2 {
@@ -55,10 +55,25 @@
 </head>
 <body>
     <div class="container">
-        <h2>Welcome, <%= user.email.split('@')[0].split('_')[1] %>!</h2>
-        <p><strong>Email:</strong> <%= user.email %></p>
-        <p><strong>Role:</strong> <%= user.role %></p>
-        <a href="/logout" class="logout-btn">Logout</a>
+        <h2 style="text-align: left;">Welcome, <%= user.email.split('@')[0].split('_')[1] %>!</h2>
+        <div style="display: flex; justify-content: space-between;">
+            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                <p><strong>Email:</strong> <%= user.email %></p>
+                <p><strong>Role:</strong> <%= user.role %></p>
+                <a href="/logout" class="logout-btn">Logout</a>
+            </div>
+            <div>
+                <p>Task Assigned Text</p>
+                <button style="background: #ff4b5c;background: #ff4b5c;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                margin-top: 20px;
+                cursor: pointer;">Completed</button>
+            </div>
+        </div>
     </div>
 </body>
 </html>

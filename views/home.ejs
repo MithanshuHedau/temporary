@@ -121,7 +121,7 @@
     <a href="/logout"><button class="logout-btn">Logout</button></a>
 
     <div class="dashboard">
-        <h2>Admin Dashboard , welocme Mithanshu </h2>
+        <h2>Admin Dashboard , welcome Mithanshu </h2>
 
         <!-- Add User Form -->
         <div class="form-container">
@@ -136,6 +136,20 @@
                     <option value="user">User</option>
                 </select>
                 <button type="submit">Add User</button>
+            </form>
+        </div>
+
+        <!-- Assign Task Form -->
+        <div class="form-container">
+            <h3>Assign Task</h3>
+            <form action="" method="post">
+                <select name="userUniqueId" required>
+                    <% data.forEach(user => { %>
+                        <option value="<%= user.userUniqueId %>"><%= user.userUniqueId %> - <%= user.userName %></option>
+                    <% }) %>
+                </select>
+                <input type="text" name="taskDescription" placeholder="Task Description Feature Comming Soon ........🤖" required>
+                <button disabled type="submit">Assign Task</button>
             </form>
         </div>
 
